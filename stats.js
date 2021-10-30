@@ -122,7 +122,6 @@ fetch(`https://shri.yandex/hw/stat/data?counterId=A7D622A8-681A-417D-BBE2-4E30B7
 
 		calcMetricsByDate(data, 'send test', '2021-10-30');
 		compareMetric(data, 'send test', 'lcp', '2021-10-30', '2021-10-31');
-		//getMetricByBrowser(data, 'send test', 'chrome', 'fid')
+		getMetricByBrowser(data, 'send test', 'chrome', 'fid')
 		getMetricByBrowser(data, 'send test', 'opera', 'fid')
-		//getMetricByBrowser(data, 'send test', 'unknown', 'fid')
 	});
