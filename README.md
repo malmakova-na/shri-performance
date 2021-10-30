@@ -1,4 +1,5 @@
 ## GitHub Pages
-- Отправка [GitHub Pages](https://malmakova-na.github.io/shri-performance/blob/master/send.html)
-- Просмотр в консоли [GitHub Pages](https://malmakova-na.github.io/shri-performance/blob/master/stats.html)
+- Отправка [GitHub Pages Send](https://malmakova-na.github.io/shri-performance/send.html)
+- Просмотр в консоли [GitHub Pages Stats](https://malmakova-na.github.io/shri-performance/stats.html)
 
+ 
