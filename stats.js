@@ -78,7 +78,6 @@ function getMetricByBrowser(data, page, browser, name) {
 	let result = getMetric(sampleData);
 	let table = {};
 	table[name] = result;
-	console.log(sampleData)
 	console.table(table)
 	return result;
 }
