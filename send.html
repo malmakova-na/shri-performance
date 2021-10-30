@@ -27,17 +27,60 @@
 	<div class="results"></div>
 	<script src="send.js"></script>
 	<script>
+		function getBrowser() {
+			let userAgent = navigator.userAgent;
+			//console.log("userAgent", userAgent)
+
+			if(userAgent.includes('chrome') && window.chrome) {
+				return 'chrome';
+			} else if(userAgent.includes('opr') && window.opr) {
+				return 'opera';
+			} else if(userAgent.includes('edge')) {
+				return 'edge';
+			} else if(userAgent.includes('firefox')) {
+				return 'firefox';
+			}
+			return 'chrome';
+
+		};
+
+		const isMobilePlatform =  navigator.userAgentData.mobile;
 
 		let counter = new Counter();
 
-		counter.init('D8F28E50-3339-11EC-9EDF-9F93090795B1', String(Math.random()).substr(2, 12), 'send test');
+		counter.init('A7D622A8-681A-417D-BBE2-4E30B74EA010', String(Math.random()).substr(2, 12), 'send test');
 		counter.setAdditionalParams({
 			env: 'production',
-			platform: 'touch'
+			browser: 'chrome',
+			platform: isMobilePlatform?'touch': 'desktop'
 		});
 
 		counter.send('connect', performance.timing.connectEnd - performance.timing.connectStart);
 		counter.send('ttfb', performance.timing.responseEnd - performance.timing.requestStart);
+		
+		//LCP
+		new PerformanceObserver(function(list) {
+			let entries = list.getEntries();
+			for (let i=0; i < entries.length; i++) {
+				counter.send('lcp', entries[i].startTime)
+			}
+		}).observe({type: 'largest-contentful-paint', buffered: true})
+
+		//FCP
+		new PerformanceObserver(function(list) {
+			let entries = list.getEntries();
+			for (let i=0; i < entries.length; i++) {
+				counter.send('fcp', entries[i].startTime)
+			}
+		}).observe({type: 'paint', buffered: true})
+
+		//FID
+		new PerformanceObserver(function(list) {
+			let entries = list.getEntries();
+			for (let i=0; i < entries.length; i++) {
+				counter.send('fid', entries[i].processingStart - entries[i].startTime )
+			}
+		}).observe({type: 'first-input', buffered: true})
 		
 		let timeStart = Date.now();
 
