@@ -1,4 +1,3 @@
-//const APP_ID = A7D622A8-681A-417D-BBE2-4E30B74EA010;
 function quantile(arr, q) {
     const sorted = arr.sort((a, b) => a - b);
     const pos = (sorted.length - 1) * q;
@@ -40,7 +39,6 @@ function showMetricTable(calledFunc, params ) {
 	table.fcp = calledFunc(params.data, params.page, 'fcp', params.date);//первая отрисовка контента
 	table.lcp = calledFunc(params.data, params.page, 'lcp', params.date);//скорость загрузки основного контента
 	table.fid = calledFunc(params.data, params.page, 'fid', params.date);//время ожидания до 1го взаимодействия
-	//table.tti = calledFunc(params.data, params.page, 'tti', params.date);//время до интеративности
 
 	return table;
 }
@@ -76,11 +74,11 @@ function getMetricByBrowser(data, page, browser, name) {
 	let sampleData = data
 						.filter(item => item.page == page &&
 										item.additional.browser === browser &&
-										item.name == name).map(item => item.value);;
+										item.name == name).map(item => item.value);
 	let result = getMetric(sampleData);
 	let table = {};
-	table[name] =result;
-
+	table[name] = result;
+	console.log(sampleData)
 	console.table(table)
 	return result;
 }
@@ -92,7 +90,6 @@ function addMetricByDate(data, page, name, date) {
 					.map(item => item.value);
 
 	let result = getMetric(sampleData);
-	//console.log("res in add", sampleData)
 
 	return result;
 }
@@ -124,7 +121,8 @@ fetch(`https://shri.yandex/hw/stat/data?counterId=A7D622A8-681A-417D-BBE2-4E30B7
 		let data = prepareData(result);
 
 		calcMetricsByDate(data, 'send test', '2021-10-30');
-		compareMetric(data, 'send test', 'lcp', '2021-10-30', '2021-10-29');
-		getMetricByBrowser(data, 'send test', 'other', 'fcp')
-		// добавить свои сценарии, реализовать функции выше
+		compareMetric(data, 'send test', 'lcp', '2021-10-30', '2021-10-31');
+		//getMetricByBrowser(data, 'send test', 'chrome', 'fid')
+		getMetricByBrowser(data, 'send test', 'opera', 'fid')
+		//getMetricByBrowser(data, 'send test', 'unknown', 'fid')
 	});
